@@ -44,3 +44,39 @@ impostos deduzidos do salário.
 | **8**  | Undo/redo                             | Qualquer transação associada as funcionalidades **1** a **7** deve ser _desfeita_ (_undo_) ou _refeita_ (_redo_).                                                                                                                                                                                                                                                                                                                                   |
 | **9**  | Agenda de Pagamento                   | Cada empregado é pago de acordo com uma "_agenda de pagamento_". Empregados podem selecionar a agenda de pagamento que desejam. Por _default_, as agendas "_semanalmente_", "_mensalmente_" e "_bi-semanalmente_" são usadas, como explicado na descrição geral. Posteriormente, um empregado pode pedir para ser pago de acordo com qualquer uma dessas agendas.                                                                                   |
 | **10** | Criação de Novas Agendas de Pagamento | A direção da empresa pode criar uma nova agenda de pagamento e disponibilizá-la para os empregados escolherem, se assim desejarem. Uma agenda é especificada através de um string. Alguns exemplos mostram as possibilidades: "**mensal 1**": _dia 1 de todo mês_ ; "**mensal $**": _último dia útil de todo mês_; "**semanal 1 segunda**": _toda semana às segundas-feiras_; "**semanal 2 segunda**": _a cada 2 semanas às segundas-feiras_ ; etc. |
+
+# CODE SMELLS
+
+## Duplicated Code:
+
+### The same code in more than one place.
+
+- Na classe main - método main, há uma repetição na estrutura condicional na elaboração do menu da interface.
+- Na classe main - método main, há repetição na verificação do tamanho da lista, sempre que é verificado que a lista está vazia, ocorre um break;.
+- Na classe EmployeeActions - método addEmployee, há repetição na obtenção do salário recebido, nos cenários em que o empregado é assalariado ou comissionado.
+- Na classe EmployeeActions - método changeEmpInfos há repetição na estrutura condicional para cada opção que pode ser escolhida.
+
+## Long Parameter List
+
+- Nos construtores das classes Commissioned, Hourly e Salaried há muitos parâmetros vindo da classe pai, quando poderia ter passado apenas o objeto Employee.
+
+## Long Method
+
+- Nas classes main - método main e EmployeeActions - método changeEmpInfos há repetição na estrutura condicional switch/case.
+- Classe EmployeeActions - método addEmployee é muito extensa, recolhendo muitas informações e colocando em seus devidos lugares.
+
+## Large Class
+
+- Classe EmployeeActions possui muitos métodos, incluindo sobre a parte de pagamento.
+
+## Speculative Generality
+
+- Construtores, Setters e Getters de várias classes não são utilizados
+
+## Data Class
+
+- A maioria das classes apenas armazenam dados e possuem setters e getters
+
+## Refused Bequest
+
+- Tem alguma classe que recebe algo do pai mas nao faz nada com aquela informação?
