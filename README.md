@@ -55,6 +55,7 @@ impostos deduzidos do salário.
 - Na classe main - método main, há repetição na verificação do tamanho da lista, sempre que é verificado que a lista está vazia, ocorre um break;.
 - Na classe EmployeeActions - método addEmployee, há repetição na obtenção do salário recebido, nos cenários em que o empregado é assalariado ou comissionado.
 - Na classe EmployeeActions - método changeEmpInfos há repetição na estrutura condicional para cada opção que pode ser escolhida.
+- Na classe EmployeeActions - método changeEmpInfos há repetição nos passos da verificação inicial de cada caso.
 
 ## Long Parameter List
 
@@ -79,4 +80,35 @@ impostos deduzidos do salário.
 
 ## Refused Bequest
 
-- Tem alguma classe que recebe algo do pai mas nao faz nada com aquela informação?
+- Algumas classes recebem dados dos pais, mas não fazem nada com essas informações.
+
+# Refatoramento
+
+## Extract Method
+
+Para resolver o Bad Smell "Duplicated Code" usei o Extract Method, que consiste em pegar o trecho duplicado e colocar em um método, após isso é feita a chamada do método sempre que o código original seria escrito.
+
+- A primeira alteração foi na classe EmployeeActions, método addEmployee. Inicialmente havia o trecho de código:
+
+```
+System.out.println("Enter the Salary of your employee:\n");
+int salary = input.nextInt();
+```
+
+Após a aplicação do Extract Method, esse trecho foi movido para uma função chamada getSalaryFromInput na classe src.payment.Salary
+
+## Template Method
+
+Para esse tipo de solução, o problema apresentado se comporta da seguinte forma: Há uma série de passos que é repetida na mesma ordem, mas com alguma alteração que faz com que não sejam exatamente iguais. Esse padrão de projeto comportamental define o esqueleto de um algoritmo na superclasse mas deixa as subclasses sobrescreverem etapas específicas do algoritmo sem modificar sua estrutura. No meu projeto da folha de pagamento, ele é encontrado nos problemos abaixo:
+
+- O primeiro problema resolvido com esse método está na classe EmployeeActions - método changeEmpInfos. Em cada caso havia um sequência de passos sendo executados, como a exposição do dado que o cliente estava tentado mudar, e a confirmação para tal. Esse método foi todo refatorado a fim de evitar o máximo possível a repetição de trechos de códigos. A função changeEmpInfos agora faz a chamada de uma função auxiliar na classe auxMethods.
+
+## Outras alterações
+
+- Um bad smell do tipo "duplicated code" estava presente na classe main - método main, o qual havia repetição em todos os casos na verificação do tamanho da lista e sempre que estava vazia, ocorria um break. Para retirar essa repetição, coloquei um único condicional if antes do switch case.
+
+- A Classe EmployeeActions era um bad smell "Large Class" pois possuia muitos métodos, incluindo sobre a parte de pagamento, que já nao se encaixava mais na parte dos empregados. Para resolver isso criei mais duas classes "AuxiliarActions" e "PaymentActions" nos quais distribuis os métodos já criados anteriormente - addTimeCard, payEmployees,changePayDay, createSchedule, etc.
+
+- O método addEmployee - classe EmployeeActions configura um bad smell do tipo "long method" no qual um único método realiza muitas atividades, o sobrecarregando. O método addEmployee era responsável por solicitar e receber todas as informações básicas do empregado e, no fim, cadastrá-lo ao sistema. Para resolver esse bad smell, criei novos métodos responsáveis por pequenas partes do código, um para pegar o nome, outro para o endereço e assim por diante. Os novos métodos estão na classe auxMethods.
+
+- Muitos métodos setters, getters não estavam sendo usados portanto foram excluídos.
