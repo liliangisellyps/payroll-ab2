@@ -36,44 +36,41 @@ public class Main {
 
             option = input.nextInt();
             input.nextLine();
-
+           
+            if(option == 2 || option == 3 || option == 4 || option == 5 || option == 6 || option == 7 || option == 9) {
+                if(employeesList.isEmpty()) System.out.println("There's no employee in the system.");
+                break;
+            }
             switch(option) {
                 case 1: // register new employee
                     employeesList.add(EmployeeActions.addEmployee(input));
                     break;
                 case 2: // remove a employee
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system. You can't remove it.");
-                    else EmployeeActions.removeEmployee(input, employeesList);
+                    EmployeeActions.removeEmployee(input, employeesList);
                     break;
                 case 3: // add time card
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system. You can't add a time card.");
-                    else EmployeeActions.addTimeCard(input, employeesList);
+                    AuxiliarActions.addTimeCard(input, employeesList);
                     break;
                 case 4: // add sale report
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system. You can't add a sales report.");
-                    else EmployeeActions.addSaleReport(input, employeesList);
+                    AuxiliarActions.addSaleReport(input, employeesList);
                     break;
                 case 5: // add service taxes
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system. You can't add service taxes.");
-                    else EmployeeActions.addServiceTaxes(input, employeesList);
+                    AuxiliarActions.addServiceTaxes(input, employeesList);
                     break;
                 case 6: // Change Employee Infos
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system. You can't change anything.");
-                    else EmployeeActions.changeEmpInfos(input, employeesList);
+                    EmployeeActions.changeEmpInfos(input, employeesList);
                     break;
                 case 7: // Pay Employees
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system.");
-                    else EmployeeActions.payEmployees(input, employeesList, payroll);
+                    PaymentActions.payEmployees(input, employeesList, payroll);
                     break;
                 case 8: // undo/redo
-                    EmployeeActions.undoRedo(input);
+                    PaymentActions.undoRedo(input);
                     break;
                 case 9: // Change Payment Day
-                    if(employeesList.isEmpty()) System.out.println("There's no employee in the system. You can't change anything.");
-                    else EmployeeActions.changePayDay(input, employeesList, payroll);
+                    PaymentActions.changePayDay(input, employeesList, payroll);
                     break;
                 case 10: // Create New Payment Schedule
-                    EmployeeActions.createSchedule(input, payroll);
+                    PaymentActions.createSchedule(input, payroll);
                     break;
                 case 11:
                     System.out.println("Thank You for using the system. Bye!");

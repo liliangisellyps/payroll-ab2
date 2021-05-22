@@ -9,10 +9,11 @@ public class Commissions extends Salary {
     private LocalDate dateOfSale;
     private Double priceOfSale;
     private Double commission;
-
-    public Commissions(Company company, Employee employee, Salary salary, int schedule, Double percentOfSales,
-            LocalDate dateOfSale, Double priceOfSale, Double commission) {
-        super(company, employee, salary, schedule);
+    
+    public Commissions(Company company, Employee employee, Salary salary, String schedule, Double value,
+            Double normalTaxes, Double extraHours, Commissions comissions, Double percentOfSales, LocalDate dateOfSale,
+            Double priceOfSale, Double commission) {
+        super(company, employee, salary, schedule, value, normalTaxes, extraHours, comissions);
         this.percentOfSales = percentOfSales;
         this.dateOfSale = dateOfSale;
         this.priceOfSale = priceOfSale;
