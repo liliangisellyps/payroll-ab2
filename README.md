@@ -82,7 +82,7 @@ impostos deduzidos do salário.
 
 - Algumas classes recebem dados dos pais, mas não fazem nada com essas informações.
 
-# Refatoramento
+# Refatoração
 
 ## Extract Method
 
