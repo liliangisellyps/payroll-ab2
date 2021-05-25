@@ -1,7 +1,6 @@
 package src.app;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Scanner;
 
 import src.employees.Commissioned;
@@ -21,12 +20,12 @@ public class EmployeeActions {
         System.out.println("\nLet's start our employee registration!\n");
         System.out.println("-----------------------------------");
 
-        String name = auxMethods.getNameFromInput(input);
-        String address = auxMethods.getAddressFromInput(input);
-        int employeeType = auxMethods.getTypeFromInput(input);
-        int id = auxMethods.getIdFromInput(input);
-        UnionMember unionMember = auxMethods.getUnionTradeInformationsFromInput(input);
-        Payment payment = auxMethods.getPaymentInformationsFromInput(input);
+        String name = AuxMethods.getNameFromInput(input);
+        String address = AuxMethods.getAddressFromInput(input);
+        int employeeType = AuxMethods.getTypeFromInput(input);
+        int id = AuxMethods.getIdFromInput(input);
+        UnionMember unionMember = AuxMethods.getUnionTradeInformationsFromInput(input);
+        Payment payment = AuxMethods.getPaymentInformationsFromInput(input);
 
         String paymentDay = " ";
         int salary;
@@ -39,14 +38,12 @@ public class EmployeeActions {
             case 2: // Commissioned 
                 paymentDay = "Bi-weekly - Friday";
                 salary = Salary.getSalaryFromInput(input);
-                System.out.println("What's the comission of your employee?\n");
-                int comission = input.nextInt();
+                int comission = InputMethods.readInt(input, "What's the comission of your employee?\n");
                 employee = new Commissioned(name, id, address, unionMember, payment, employeeType, paymentDay, salary, comission, null);
                 break;
             case 3: // Hourly
                 paymentDay = "Weekly - Every friday";
-                System.out.println("How much your employee is paid for hour worked?\n");
-                int hourSalary = input.nextInt();
+                int hourSalary = InputMethods.readInt(input, "How much your employee is paid for hour worked?\n");
                 employee = new Hourly(name, id, address, unionMember, payment, employeeType, paymentDay, hourSalary);
                 break;
             default: 
@@ -60,8 +57,7 @@ public class EmployeeActions {
     
     public static void removeEmployee(Scanner input, List<Employee> employeesList) {
         printEmployees(input, employeesList);
-        System.out.println("Which employee do you wanna remove? Enter the number correspondent.");
-        int index = input.nextInt();
+        int index = InputMethods.readBetween(input, "Which employee do you wanna remove? Enter the number correspondent.", 0, employeesList.size()-1);
         employeesList.remove(index);
         System.out.println("Removed successfully!");
         System.out.println("\n\n\n\n");
@@ -80,15 +76,14 @@ public class EmployeeActions {
 
     public static void changeEmpInfos(Scanner input, List<Employee> employeesList) {
         printEmployees(input, employeesList);
-        System.out.println("Which employee do you wanna make changes? Enter the number correspondent.");
-        int index = input.nextInt();
+        int index = InputMethods.readBetween(input, "Which employee do you wanna make changes? Enter the number correspondent.", 0, employeesList.size()-1);
         Employee employee = employeesList.get(index);
         int option = 1;
         while(option != 0){
             System.out.println("What do you wanna do?");
             System.out.println("1 - Change Name\n2 - Change Address\n3 - Change Type of Employee\n4 - Change Method of Payment\n5 - Change Union Trade Memembership\n6 - Change Union Trade ID\n7 - Change Union Trade Tax\n0 - Exit.");
-            option = input.nextInt();               
-            auxMethods.structures(option, employee, input);
+            option = InputMethods.readBetween(input, "", 0, 7) ;            
+            AuxMethods.structures(option, employee, input);
         }
     }
 }

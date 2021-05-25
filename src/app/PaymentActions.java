@@ -43,8 +43,6 @@ public class PaymentActions {
             }
             int fridays = 0;
 
-
-
             if(fridays % 2 == 0){
                 // pay commissioned
                 System.out.println("Today is " + today.getDayOfWeek() + ". It's time to pay commissioned employees.\n");
@@ -69,8 +67,8 @@ public class PaymentActions {
     }
     public static void changePayDay(Scanner input, List<Employee> employeesList, Payroll payroll) {
         EmployeeActions.printEmployees(input, employeesList);
-        System.out.println("Which employee do you wanna change the payment day? Enter the number correspondent.");
-        int index = input.nextInt();
+        // System.out.println("Which employee do you wanna change the payment day? Enter the number correspondent.");
+        int index = InputMethods.readInt(input, "Which employee do you wanna change the payment day? Enter the number correspondent.");
         Employee employee = employeesList.get(index);
         int op;
 
@@ -81,14 +79,12 @@ public class PaymentActions {
         else if (empType == 3) System.out.println("Every friday, weekly"); // Hourly
         else System.out.println();
  
-        System.out.println("\nAre you sure you want to change it? Press '1' to 'Yes and '0' to 'No'\n");
-        op = input.nextInt();
-        input.nextLine();
+        op = InputMethods.readBetween(input, "\nAre you sure you want to change it? Press '1' to 'Yes and '0' to 'No'\n", 0, 1);
         
         if(op == 1){
             System.out.println("\nEnter the payment method of your preference. Copy and paste the string.\n");
             printSchedule(payroll.schedule);
-            String newPayDay = input.nextLine();
+            String newPayDay = InputMethods.readString(input, "");
             employee.setPaymentDay(newPayDay);
             System.out.println("\n\nThis is your employee's new payday:");
             System.out.println(employee.getPaymentDay());
@@ -103,8 +99,7 @@ public class PaymentActions {
         System.out.println("Weekly M: pays every monday of every week\n");
         System.out.println("Bi-Weekly M: pays every two mondays\n");
 
-        System.out.println("Please enter the new schedule.");
-        String sch = input.nextLine();
+        String sch = InputMethods.readString(input, "Please enter the new schedule.");
         payroll.schedule.add(sch);
         System.out.println("\n\nPayment Schedule created successfullly!");
         System.out.println("\n\nNow, you have these options of schedule:");  
@@ -112,8 +107,7 @@ public class PaymentActions {
     }
 
     public static void undoRedo(Scanner input){
-        System.out.println("Press '0' to undo previous action and '1' to redo.");
-        int op = input.nextInt();
+        int op = InputMethods.readBetween(input, "Press '0' to undo previous action and '1' to redo.", 0, 1);
         if(op == 0) System.out.println("Previous action undone.");
         else if (op == 1) System.out.println("Previous action redone.");
     }

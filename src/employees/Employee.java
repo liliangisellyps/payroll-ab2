@@ -56,14 +56,6 @@ public class Employee {
         this.paymentDay = paymentDay;
     }
 
-    // public String paymentDayToString() {
-    //     if(this.getPaymentDay() == 1) return "Monthly";
-    //     else if (this.getPaymentDay() == 2) return "Bi-Weekly";
-    //     else if (this.getPaymentDay() == 3) return "Weekly";
-    //     else return "Invalid";
-    // }
-
-
     public int getId() {
         return id;
     }

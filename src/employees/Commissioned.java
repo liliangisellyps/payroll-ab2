@@ -1,5 +1,6 @@
 package src.employees;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import src.payment.Payment;
@@ -15,7 +16,7 @@ public class Commissioned extends Employee{
         super(name, id, address, unionMember, payment, employeeType, paymentDay);
         this.salary = salary;
         this.commission = commission;
-        this.salesReport = salesReport;
+        this.salesReport = new ArrayList<SaleReport>();
     }
     public int getSalary() {
         return salary;

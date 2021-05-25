@@ -7,16 +7,37 @@ import java.util.Scanner;
 import src.employees.Employee;
 import src.payment.Payroll;
 
+import src.app.strategy.*;
+
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        
         int option = 0;
+
         List<Employee> employeesList = new ArrayList<Employee>();
+
         Payroll payroll = new Payroll();
+
         payroll.schedule.add("Monthly - Last day of the month");
         payroll.schedule.add("Bi-weekly - Friday");
         payroll.schedule.add("Weekly - Every friday");
 
+        List<MenuController> menuControllers = new ArrayList<MenuController>();
+        
+        menuControllers.add(new AddEmployee());
+        menuControllers.add(new RemoveEmployee());
+        menuControllers.add(new AddTimeCard());
+        menuControllers.add(new AddSaleReport());
+        menuControllers.add(new AddServiceTaxes());
+        menuControllers.add(new ChangeEmpInfos());
+        menuControllers.add(new PayEmployees());
+        menuControllers.add(new UndoRedo());
+        menuControllers.add(new ChangePayDay());
+        menuControllers.add(new CreateSchedule());
+        
+        AuxiliarActions.clearconsole();
+        
         while(option != 11){ 
             System.out.println("-----------------------------------");
             System.out.println("\nWelcome to the payroll system!\n");
@@ -33,53 +54,25 @@ public class Main {
             System.out.println("9 - Change Payment Day\n");
             System.out.println("10 - Create New Payment Schedule\n");
             System.out.println("11 - Exit System");
+            System.out.print("\nOption: ");
 
-            option = input.nextInt();
-            input.nextLine();
-           
-            if(option >= 2 && option <= 8) {
-                if(employeesList.isEmpty()) System.out.println("There's no employee in the system.");
-                break;
-            }
-            switch(option) {
-                case 1: // register new employee
-                    employeesList.add(EmployeeActions.addEmployee(input));
-                    break;
-                case 2: // remove a employee
-                    EmployeeActions.removeEmployee(input, employeesList);
-                    break;
-                case 3: // add time card
-                    AuxiliarActions.addTimeCard(input, employeesList);
-                    break;
-                case 4: // add sale report
-                    AuxiliarActions.addSaleReport(input, employeesList);
-                    break;
-                case 5: // add service taxes
-                    AuxiliarActions.addServiceTaxes(input, employeesList);
-                    break;
-                case 6: // Change Employee Infos
-                    EmployeeActions.changeEmpInfos(input, employeesList);
-                    break;
-                case 7: // Pay Employees
-                    PaymentActions.payEmployees(input, employeesList, payroll);
-                    break;
-                case 8: // Change Payment Day
-                    PaymentActions.changePayDay(input, employeesList, payroll);
-                    break;
-                case 9: // undo/redo
-                    PaymentActions.undoRedo(input);
-                    break;
-                case 10: // Create New Payment Schedule
-                    PaymentActions.createSchedule(input, payroll);
-                    break;
-                case 11:
-                    System.out.println("Thank You for using the system. Bye!");
-                    break;
-                default:
-                    break;
+            option = InputMethods.readBetween(input, "", 0, 11);
+            AuxiliarActions.clearconsole();
+            System.out.println(option);
+            if(option >= 1 && option <= 10) {
+                if(option != 1 && option != 9 && option != 10 && employeesList.isEmpty()) {
+                    System.out.println("\n\n\nThere's no employee in the system.");
+                } else {
+                    menuControllers.get(option - 1).executeAction(input, employeesList, payroll);
+                }
+            } else if(option == 11) {
+                System.out.println("Thank You for using the system. Bye!");
+            } else { 
+                System.out.println("Choose a valid option.");
             }
             System.out.println("\n\n\n");
         }
         input.close();
     }
 }
+

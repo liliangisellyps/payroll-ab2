@@ -1,5 +1,6 @@
 package src.app;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -13,35 +14,31 @@ import src.employees.TimeCard;
 
 public class AuxiliarActions {
 
+     public static void clearconsole(){
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (IOException | InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+    
     public static void addTimeCard(Scanner input, List<Employee> employeesList) {
         EmployeeActions.printEmployees(input, employeesList);
-        System.out.println("Which employee do you wanna add a time card? Enter the number correspondent.");
-        int index = input.nextInt();
-        Hourly employee = (Hourly) employeesList.get(index);
-        if(employee.getEmployeeType() != 3) {
+        int index = InputMethods.readBetween(input, "Which employee do you wanna add a time card? Enter the number correspondent.", 0, employeesList.size()-1);
+
+        Employee employee2 = (Employee) employeesList.get(index);
+        if(employee2.getEmployeeType() != 3) {
             System.out.println("You can't add a time card to this employee. He/She is not an hourly employee");
             return;
         } else {
-            System.out.println("Enter the hour the employee got in:");
-            int hourIn = input.nextInt();
-            System.out.println("Enter the minute the employee got in:");
-            int minuteIn = input.nextInt();
-            LocalTime checkIn = LocalTime.of(hourIn, minuteIn);
-
-            System.out.println("Enter the hour the employee got out:");
-            int hourOut = input.nextInt();
-            System.out.println("Enter the minute the employee got out:");
-            int minuteOut = input.nextInt();
-            LocalTime checkOut = LocalTime.of(hourOut, minuteOut);
-
-            System.out.println("Enter the day of the month of the time card:");
-            int dayOfMonth = input.nextInt();
-            System.out.println("Enter the month of the time card:");
-            int month = input.nextInt();
-            System.out.println("Enter the year of the time card:");
-            int year = input.nextInt();
-
-            LocalDate date = LocalDate.of(year, month, dayOfMonth);
+            Hourly employee = (Hourly) employeesList.get(index);
+            LocalTime checkIn = InputMethods.SetTime(input, "Let's configure the Check-In");
+            LocalTime checkOut = InputMethods.SetTime(input, "Now, let's configure the Check-Out");
+            LocalDate date = InputMethods.SetDate(input);
 
             TimeCard timecard = new TimeCard(checkIn, checkOut, date);
             employee.getTimecard().add(timecard);
@@ -53,22 +50,18 @@ public class AuxiliarActions {
 
     public static void addSaleReport(Scanner input, List<Employee> employeesList) {
         EmployeeActions.printEmployees(input, employeesList);
-        System.out.println("Which employee do you wanna add a sales report? Enter the number correspondent.");
-        int index = input.nextInt();
-        Commissioned employee = (Commissioned) employeesList.get(index);
-        if(employee.getEmployeeType() != 2) {
+        int index = InputMethods.readBetween(input, "For which employee do you wanna add a sales report? Enter the number correspondent.", 0, employeesList.size()-1);
+        Employee employee2 = (Employee) employeesList.get(index);
+        if(employee2.getEmployeeType() != 2) {
             System.out.println("You can't add a time card to this employee. He/She is not an commissioned employee.");
             return;
         } else {
-            System.out.println("Enter the price of the sale:");
-            int priceOfSale = input.nextInt();
-            
-            System.out.println("Enter the day of the month of the sale:");
-            int dayOfMonth = input.nextInt();
-            System.out.println("Enter the month of the sale:");
-            int month = input.nextInt();
-            System.out.println("Enter the year of the sale:");
-            int year = input.nextInt();
+            Commissioned employee = (Commissioned) employeesList.get(index);
+
+            int priceOfSale = InputMethods.readInt(input, "Enter the price of the sale:");
+            int dayOfMonth = InputMethods.readInt(input, "Enter the day of the month of the sale:");
+            int month = InputMethods.readInt(input, "Enter the month of the sale:");
+            int year = InputMethods.readInt(input, "Enter the year of the sale:");
 
             LocalDate dateOfSale = LocalDate.of(year, month, dayOfMonth);
 
@@ -82,19 +75,17 @@ public class AuxiliarActions {
 
     public static void addServiceTaxes(Scanner input, List<Employee> employeesList) {
         EmployeeActions.printEmployees(input, employeesList);
-        System.out.println("Which employee do you wanna add a service tax? Enter the number correspondent.");
-        int index = input.nextInt();
+        int index = InputMethods.readBetween(input, "Which employee do you wanna add a service tax? Enter the number correspondent.", 0, employeesList.size()-1);
+        
         Employee employee = employeesList.get(index);
+        
         if(employee.getUnionMember().getIdUT() == 0) {
             System.out.println("You can't add a time card to this employee. He/She is not an Union Member.");
             return;
         } else {
-            System.out.println("Enter the Service Tax value:");
-            int serviceTax = input.nextInt();
+            int serviceTax = InputMethods.readInt(input, "Enter the Service Tax value:");
             employee.getUnionMember().setServiceTaxes(serviceTax);
-            System.out.println("\nService Tax Successfully Added!");
-            System.out.println("\n\n\n\n");
-
+            System.out.println("\nService Tax Successfully Added!\n\n\n\n");
         }
     }
 }

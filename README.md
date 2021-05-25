@@ -97,7 +97,7 @@ int salary = input.nextInt();
 
 Após a aplicação do Extract Method, esse trecho foi movido para um método chamado getSalaryFromInput na classe src.payment.Salary
 
-- antes: [addEmployee](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/EmployeeActions.java#L26)
+- antes: [addEmployee](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/EmployeeActions.java#L83)
 - depois:
   - [addEmployee](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/EmployeeActions.java#L17)
   - [getSalaryFromInput](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/payment/Salary.java#L20)
@@ -113,11 +113,25 @@ Para esse tipo de solução, o problema apresentado se comporta da seguinte form
   - [changeEmpInfos](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/EmployeeActions.java#L81)
   - [structures](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/auxMethods.java#L73)
 
+## Strategy
+
+Antes do refatoramento, havia uma grande lista de Switch Case no menu no qual o usuário escolheria a função a ser executada. Utilizar o Strategy pattern nesse caso resolve alguns problemas, tais como: Melhora a legibilidade do código, evita o bad smell "duplicated code", e, em casos de mudanças em uma classe, não é necessário que haja mudanças nas outras. Esse pattern foi aplicado substituindo cada "case" do switch por uma classe.
+
+- antes: [main]()
+- depois:
+
+  - [main]()
+  - [strategy]()
+
+## Handle Exceptions
+
+- Para tratar as exceptions existentes no código, foi criado uma nova classe [InputMethods](), no qual possui métodos para tratar a leitura de Int, String, de inteiros que devem estar contidos em um certo intevalo, além de métodos para a obtenção da data e hora, que é usado no timecard. Esses métodos utilizam try/catch.
+
 ## Outras alterações
 
 - Um bad smell do tipo "duplicated code" estava presente na classe main - método main, o qual havia repetição na verificação do tamanho da lista, em todos os casos, e sempre que estava vazia, ocorria um break. Para retirar essa repetição, coloquei um único condicional if antes do switch case.
 
-  - [antes](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/Main.java#L45)
+  - [antes](https://github.com/liliangisellyps/payroll-ab2/blob/c333d68489464b8c7d9e80d8af8d490558284b45/src/app/Main.java#L40)
   - [depois](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/Main.java#L40)
 
 - A Classe EmployeeActions era um bad smell "Large Class" pois possuia muitos métodos, incluindo sobre a parte de pagamento, que já nao se encaixava mais na parte dos empregados. Para resolver isso criei mais duas classes "AuxiliarActions" e "PaymentActions" nos quais distribuis os métodos já criados anteriormente - addTimeCard, payEmployees,changePayDay, createSchedule, etc.
@@ -138,3 +152,7 @@ Para esse tipo de solução, o problema apresentado se comporta da seguinte form
     - [auxMethods](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/auxMethods.java#L10)
 
 - Muitos métodos setters, getters não estavam sendo usados, o que configurava um bad smell do tipo "speculativy generality", portanto, foram excluídos.
+
+- Foi criado um novo método [Clear Console]() na classe AuxiliarActions, que tem como objetivo limpar a visualização do console, para melhorar a experiência do usuário.
+
+To-do: update UML, update links
