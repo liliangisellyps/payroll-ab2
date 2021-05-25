@@ -131,7 +131,7 @@ Antes do refatoramento, havia uma grande lista de Switch Case no menu no qual o 
 
 - Um bad smell do tipo "duplicated code" estava presente na classe main - método main, o qual havia repetição na verificação do tamanho da lista, em todos os casos, e sempre que estava vazia, ocorria um break. Para retirar essa repetição, coloquei um único condicional if antes do switch case.
 
-  - [antes](https://github.com/liliangisellyps/payroll-ab2/blob/c333d68489464b8c7d9e80d8af8d490558284b45/src/app/Main.java#L40)
+  - [antes](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/Main.java#L45)
   - [depois](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/Main.java#L40)
 
   - obs: Após a aplicação do pattern strategy, isso foi novamente alterado.
