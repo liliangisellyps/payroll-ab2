@@ -117,15 +117,15 @@ Para esse tipo de solução, o problema apresentado se comporta da seguinte form
 
 Antes do refatoramento, havia uma grande lista de Switch Case no menu no qual o usuário escolheria a função a ser executada. Utilizar o Strategy pattern nesse caso resolve alguns problemas, tais como: Melhora a legibilidade do código, evita o bad smell "duplicated code", e, em casos de mudanças em uma classe, não é necessário que haja mudanças nas outras. Esse pattern foi aplicado substituindo cada "case" do switch por uma classe.
 
-- antes: [main]()
+- antes: [main](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/Main.java)
 - depois:
 
-  - [main]()
-  - [strategy]()
+  - [main](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/Main.java)
+  - [strategy](https://github.com/liliangisellyps/payroll-ab2/tree/main/src/app/strategy)
 
 ## Handle Exceptions
 
-- Para tratar as exceptions existentes no código, foi criado uma nova classe [InputMethods](), no qual possui métodos para tratar a leitura de Int, String, de inteiros que devem estar contidos em um certo intevalo, além de métodos para a obtenção da data e hora, que é usado no timecard. Esses métodos utilizam try/catch.
+- Para tratar as exceptions existentes no código, foi criado uma nova classe [InputMethods](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/InputMethods.java), no qual possui métodos para tratar a leitura de Int, String, de inteiros que devem estar contidos em um certo intevalo, além de métodos para a obtenção da data e hora, que é usado no timecard. Esses métodos utilizam try/catch.
 
 ## Outras alterações
 
@@ -134,25 +134,25 @@ Antes do refatoramento, havia uma grande lista de Switch Case no menu no qual o 
   - [antes](https://github.com/liliangisellyps/payroll-ab2/blob/c333d68489464b8c7d9e80d8af8d490558284b45/src/app/Main.java#L40)
   - [depois](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/Main.java#L40)
 
+  - obs: Após a aplicação do pattern strategy, isso foi novamente alterado.
+
 - A Classe EmployeeActions era um bad smell "Large Class" pois possuia muitos métodos, incluindo sobre a parte de pagamento, que já nao se encaixava mais na parte dos empregados. Para resolver isso criei mais duas classes "AuxiliarActions" e "PaymentActions" nos quais distribuis os métodos já criados anteriormente - addTimeCard, payEmployees,changePayDay, createSchedule, etc.
 
   - antes:
     - [EmployeeActions](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/EmployeeActions.java#L24)
   - depois:
-    - [EmployeeActions](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/EmployeeActions.java#L15)
-    - [AuxiliarActions](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/AuxiliarActions.java#L14)
-    - [PaymentActions](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/PaymentActions.java#L12)
+    - [EmployeeActions](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/EmployeeActions.java)
+    - [AuxiliarActions](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/AuxiliarActions.java)
+    - [PaymentActions](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/PaymentActions.java)
 
 - O método addEmployee - classe EmployeeActions configura um bad smell do tipo "long method" no qual um único método realiza muitas atividades, o sobrecarregando. O método addEmployee era responsável por solicitar e receber todas as informações básicas do empregado e, no fim, cadastrá-lo ao sistema. Para resolver esse bad smell, criei novos métodos responsáveis por pequenas partes do código, um para pegar o nome, outro para o endereço e assim por diante. Os novos métodos estão na classe auxMethods.
 
   - antes:
     - [addEmployee](https://github.com/liliangisellyps/payroll-ab2/blob/704b611935e2c0e2453118b7ec943b67cf184436/src/app/EmployeeActions.java#L26)
   - depois:
-    - [addEmployee](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/EmployeeActions.java#L17)
-    - [auxMethods](https://github.com/liliangisellyps/payroll-ab2/blob/bf04294f8c85e712ab33d2071c549eaa128f963a/src/app/auxMethods.java#L10)
+    - [addEmployee](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/EmployeeActions.java#L16)
+    - [AuxMethods](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/auxMethods.java#L10)
 
-- Muitos métodos setters, getters não estavam sendo usados, o que configurava um bad smell do tipo "speculativy generality", portanto, foram excluídos.
+- Alguns métodos setters, getters não estavam sendo usados, o que configurava um bad smell do tipo "speculativy generality", portanto, foram excluídos.
 
-- Foi criado um novo método [Clear Console]() na classe AuxiliarActions, que tem como objetivo limpar a visualização do console, para melhorar a experiência do usuário.
-
-To-do: update UML, update links
+- Foi criado um novo método [Clear Console](https://github.com/liliangisellyps/payroll-ab2/blob/9592aad1a0b0aa6dcaf62576a6053bbb73069e3d/src/app/AuxiliarActions.java#L17) na classe AuxiliarActions, que tem como objetivo limpar a visualização do console, para melhorar a experiência do usuário.
