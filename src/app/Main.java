@@ -37,7 +37,7 @@ public class Main {
             option = input.nextInt();
             input.nextLine();
            
-            if(option == 2 || option == 3 || option == 4 || option == 5 || option == 6 || option == 7 || option == 9) {
+            if(option >= 2 && option <= 8) {
                 if(employeesList.isEmpty()) System.out.println("There's no employee in the system.");
                 break;
             }
@@ -63,11 +63,11 @@ public class Main {
                 case 7: // Pay Employees
                     PaymentActions.payEmployees(input, employeesList, payroll);
                     break;
-                case 8: // undo/redo
-                    PaymentActions.undoRedo(input);
-                    break;
-                case 9: // Change Payment Day
+                case 8: // Change Payment Day
                     PaymentActions.changePayDay(input, employeesList, payroll);
+                    break;
+                case 9: // undo/redo
+                    PaymentActions.undoRedo(input);
                     break;
                 case 10: // Create New Payment Schedule
                     PaymentActions.createSchedule(input, payroll);
